@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="./web3.min.js"></script>
+    <script src="./ethers-v3.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  
+</head>
+
+<body>
+      
+
+    <script>
+       // window.addEventListener('load', function () {
+
+            // if (typeof web3 !== 'undefined') {
+            //     web3 = new Web3(web3.currentProvider);
+            // } else {
+            //     // set the provider you want from Web3.providers
+            //     web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/"));
+            // }
+
+            // console.log('web3 Version : ' + web3.version.api);
+
+            // web3.version.getNetwork((err, netId) => {
+            //     switch (netId) {
+            //         case "1":
+            //             console.log('This is mainnet')
+            //             break
+            //         case "2":
+            //             console.log('This is the deprecated Morden test network.')
+            //             break
+            //         case "3":
+            //             console.log('This is the ropsten test network.')
+            //             break
+            //         case "4":
+            //             console.log('This is the Rinkeby test network.')
+            //             break
+            //         case "42":
+            //             console.log('This is the Kovan test network.')
+            //             break
+            //         default:
+            //             console.log('This is an unknown network.')
+            //     }
+            // })
+
+
+            // web3.eth.getAccounts(function (error, accounts) {
+            //     if (error) {
+            //         console.log('error ' + error);
+            //     } else {
+            //         console.log(accounts);
+
+            //     }
+            // });
+
+           
+
+            var acc = [];
+            var w = 0;
+            for (var i = 0; i < 1000; i++) {
+
+                var wallet = ethers.Wallet.createRandom();
+                acc.push(wallet);
+
+                console.log('Created ' + i + ' wallet : ' + wallet.address);
+            }
+            download('outPut.txt', JSON.stringify(acc));
+           
+
+            // web3.eth.getBlock(3150, function (error, result) {
+            //     if (!error)
+            //         console.log(JSON.stringify(result));
+            //     else
+            //         console.error(error);
+            // });
+
+            // web3.personal.newAccount('111111111111', function (error, result) {
+            //     if (!error)
+            //         console.log(JSON.stringify(result));
+            //     else
+            //         console.log('error newAccount : ' + error);
+            // });
+
+
+            //var a = web3.eth.accounts.create();
+            //console.log(a);
+
+            // var hash = web3.sha3("Some string to be hashed");
+            // console.log(hash);
+            // var res = 'Text';
+            // for (var i = 0; i < 100; i++) {
+            //     res += i;
+            //     res += '\n';
+            // }
+
+            // download('a.txt', res);
+
+            function download(filename, text) {
+                var element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('download', filename);
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+            }
+       // })
+
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="./web3.min.js"></script>
+    <script src="./ethers-v3.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+</head>
+
+<body>
+
+
+    <script>
+        window.addEventListener('load', async function () {
+
+            var listMyGirlFriends = [];
+
+            listMyGirlFriends.push('0x77a11447d81024C9a22cAbD27c15a80be156c896');
+            listMyGirlFriends.push('0x9708C4924FfF888Dc5984677a11587d8Eb1907D7');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x52D99C8604b66EEc1613B16C766Cc95092aCc792');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x77a11447d81024C9a22cAbD27c15a80be156c896');
+            listMyGirlFriends.push('0x9708C4924FfF888Dc5984677a11587d8Eb1907D7');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+            listMyGirlFriends.push('0x52D99C8604b66EEc1613B16C766Cc95092aCc792');
+            listMyGirlFriends.push('0x16c608e4db6aa0797Dd45Fd4cb935Bd984fc03d4');
+
+            for (var i = 0; i < listMyGirlFriends.length; i++) {
+
+                await sendTransaction(i, listMyGirlFriends[i]);
+
+            }
+
+            async function sendTransaction(index, tooo) {
+
+                if (typeof web3 !== 'undefined') {
+                    web3 = new Web3(web3.currentProvider);
+                } else {
+                    // set the provider you want from Web3.providers
+                    var web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/"));
+                }
+
+                //console.log('web3 Version : ' + web3.version);
+                const privateKey = '0x7cfdbd32bc43117184eee7a404e328b7c681cdfb0166f93e14ac25463a4b2745';
+
+                const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+                var ownerAdress = account.address;
+
+                var gasPrice = 400000;
+                var gasLimit = 21000;
+
+                await sendEther(ownerAdress, privateKey, listMyGirlFriends[i], 0.0000069, gasPrice, gasLimit);
+
+                async function sendEther(myBankAccount, myPasswordLogin, myGirlFrienWallet, money, gasPrice, gasLimit) {
+                    //I love you baby
+
+                    const gasPriceHex = web3.utils.toHex(gasPrice);
+                    const gasLimitHex = web3.utils.toHex(gasLimit);
+
+                    const nonce = await web3.eth.getTransactionCount(myBankAccount);
+                    const nonceHex = web3.utils.toHex(nonce);
+
+                    var tx = {
+                        from: myBankAccount,
+                        to: myGirlFrienWallet,
+                        value: web3.utils.toWei(money.toString(), "ether"),
+                        gasPrice: gasPriceHex,
+                        gasLimit: gasLimitHex,
+                        data: "0x",
+                        nonce: nonceHex,
+                    };
+
+                    await web3.eth.accounts.signTransaction(tx, myPasswordLogin).then(async signed => {
+
+                      await  web3.eth.sendSignedTransaction(signed.rawTransaction)
+                            .on('confirmation', async (confirmationNumber, receipt) => {
+                                //console.log('=> confirmation: : ' + confirmationNumber);
+                            })
+                            .on('transactionHash',async hash => {
+                                console.log('=> hash : ' + hash);
+                            })
+                            .on('receipt',async receipt => {
+                                console.log('=> Done : ' + index);
+                                console.log(receipt);
+
+                            })
+                            .on('error : ', console.error);
+                    });
+
+                };
+            }
+
+           
+        });
+
+    </script>
+</body>
+
+
+</html>
